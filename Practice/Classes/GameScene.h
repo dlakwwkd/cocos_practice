@@ -1,42 +1,38 @@
-#ifndef __GAME_SCENE_H__
-#define __GAME_SCENE_H__
-
+#pragma once
 #include "cocos2d.h"
-
-#include "Box2D/Box2D.h"
-#include "BOX2DDebugDrawLayer.h"
 
 USING_NS_CC;
 
-class GameScene : public cocos2d::Layer
+class GameScene : public LayerColor
 {
 public:
-	static cocos2d::Scene* createScene();
+	static Scene* createScene();
 	virtual bool init();
 	CREATE_FUNC(GameScene);
 
-	virtual void onEnter();
-	virtual void onExit();
+	PhysicsWorld* m_World;
 
-	virtual bool onTouchBegan(Touch *touch, Event *event);
-	virtual void onTouchMoved(Touch *touch, Event *event);
-	virtual void onTouchEnded(Touch *touch, Event *event);
-
+	void setPhyWorld(PhysicsWorld* world){ m_World = world; }
 	void tick(float dt);
 
-	b2World *world;
+
 
 public:
-	void addNewSpriteAtPosition(Point location);
+	virtual void onMouseDown(Event *event);
+	virtual void onMouseUp(Event *event);
+	virtual void onMouseMove(Event *event);
+	virtual void onMouseScroll(Event *event);
+	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+
+	void addNewSpriteAtPosition(Point p);
 	void createHero(Point location);
 	void updateKeyInput();
 	void MobAi();
 
-	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
-	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
-
-	Texture2D*	m_TextureSprite;
-	b2Body*		m_Hero;
+	Vect m_MousePosition;
+	bool m_IsMouseDown;
+	PhysicsBody*	m_Hero;
 	bool		m_IsUp_KeyDown;
 	bool		m_IsDown_KeyDown;
 	bool		m_IsRight_KeyDown;
@@ -46,4 +42,3 @@ public:
 	bool		m_IsX_KeyDown;
 };
 
-#endif 
