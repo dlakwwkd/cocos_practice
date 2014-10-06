@@ -7,7 +7,7 @@ Scene* GameScene::createScene()
 	auto gravity = Vect(0.0f, -1000.0f);
 
 	auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_NONE);
 	scene->getPhysicsWorld()->setGravity(gravity);
 
 	auto body = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
@@ -185,7 +185,7 @@ void GameScene::updateKeyInput()
 
 void GameScene::createHero(Point location)
 {
-	auto sprite = Sprite::create("CloseNormal.png");
+	auto sprite = Sprite::create("pattern1.png");
 
 	// 밀도, 복원력, 마찰력
 	auto material = PhysicsMaterial(1.0f, 0.6f, 1.8f);
@@ -202,13 +202,13 @@ void GameScene::createHero(Point location)
 
 void GameScene::addNewSpriteAtPosition(Point p)
 {
-	auto sprite = Sprite::create("CloseSelected.png");
+	auto sprite = Sprite::create("r2.png");
 	sprite->setPosition(p);
 
 	// 밀도, 복원력, 마찰력
 	auto material = PhysicsMaterial(1.0f, 0.8f, 0.8f);
 
-	auto body = PhysicsBody::createCircle(sprite->getContentSize().width / 2, material);
+	auto body = PhysicsBody::createCircle(sprite->getContentSize().width / 3, material);
 	body->setMass(1.0f);
 
 	sprite->setPhysicsBody(body);
