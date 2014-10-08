@@ -1,14 +1,13 @@
-#include "GameScene.h"
+#include "GameScene2.h"
 
 
-Scene* GameScene::createScene()
+Scene* GameScene2::createScene()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto gravity = Vect(0.0f, -1000.0f);
 
 	auto scene = Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_NONE);
-	scene->getPhysicsWorld()->setGravity(gravity);
+	scene->getPhysicsWorld()->setGravity(Vect::ZERO);
 
 	auto body = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
 	auto edgeNode = Node::create();
@@ -16,13 +15,13 @@ Scene* GameScene::createScene()
 	edgeNode->setPhysicsBody(body);
 	scene->addChild(edgeNode);
 
-	auto layer = GameScene::create();
+	auto layer = GameScene2::create();
 	layer->setPhyWorld(scene->getPhysicsWorld());
 	scene->addChild(layer);
 	return scene;
 }
 
-bool GameScene::init()
+bool GameScene2::init()
 {
 	if (!LayerColor::initWithColor(Color4B(0, 0, 0, 0)))
 	{
@@ -39,29 +38,30 @@ bool GameScene::init()
 	m_IsX_KeyDown = false;
 
 	auto MouseListener = EventListenerMouse::create();
-	MouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
-	MouseListener->onMouseUp = CC_CALLBACK_1(GameScene::onMouseUp, this);
-	MouseListener->onMouseMove = CC_CALLBACK_1(GameScene::onMouseMove, this);
-	MouseListener->onMouseScroll = CC_CALLBACK_1(GameScene::onMouseScroll, this);
+	MouseListener->onMouseDown = CC_CALLBACK_1(GameScene2::onMouseDown, this);
+	MouseListener->onMouseUp = CC_CALLBACK_1(GameScene2::onMouseUp, this);
+	MouseListener->onMouseMove = CC_CALLBACK_1(GameScene2::onMouseMove, this);
+	MouseListener->onMouseScroll = CC_CALLBACK_1(GameScene2::onMouseScroll, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener, this);
 
 	auto *K_listener = EventListenerKeyboard::create();
-	K_listener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
-	K_listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
+	K_listener->onKeyPressed = CC_CALLBACK_2(GameScene2::onKeyPressed, this);
+	K_listener->onKeyReleased = CC_CALLBACK_2(GameScene2::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(K_listener, this);
 
 	createHero({ 200, 200 });
-	this->schedule(schedule_selector(GameScene::tick));
+	this->schedule(schedule_selector(GameScene2::tick));
 
 	return true;
 }
 
-void GameScene::tick(float dt)
+void GameScene2::tick(float dt)
 {
 	updateKeyInput();
+	groundFriction();
 }
 
-void GameScene::onMouseDown(Event *event)
+void GameScene2::onMouseDown(Event *event)
 {
 	auto button = (static_cast<EventMouse*>(event))->getMouseButton();
 	switch (button)
@@ -87,12 +87,12 @@ void GameScene::onMouseDown(Event *event)
 	}
 }
 
-void GameScene::onMouseUp(Event *event)
+void GameScene2::onMouseUp(Event *event)
 {
 	m_IsMouseDown = false;
 }
 
-void GameScene::onMouseMove(Event *event)
+void GameScene2::onMouseMove(Event *event)
 {
 	m_MousePosition = (static_cast<EventMouse*>(event))->getLocation();
 	m_MousePosition.y = Director::getInstance()->getWinSize().height - m_MousePosition.y;
@@ -103,13 +103,13 @@ void GameScene::onMouseMove(Event *event)
 	}
 }
 
-void GameScene::onMouseScroll(Event *event)
+void GameScene2::onMouseScroll(Event *event)
 {
 
 }
 
 
-void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+void GameScene2::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	auto gravity = Vect(0.0f, 0.0f);
 
@@ -139,7 +139,7 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 }
 
-void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
+void GameScene2::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	switch (keyCode)
 	{
@@ -153,7 +153,7 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 }
 
-void GameScene::updateKeyInput()
+void GameScene2::updateKeyInput()
 {
 	Vect temp;
 
@@ -161,33 +161,33 @@ void GameScene::updateKeyInput()
 	{
 		//this->setPositionY(this->getPositionY() - 10);
 		temp.x = m_Hero->getVelocity().x;
-		temp.y = m_Hero->getVelocity().y + 10;
+		temp.y = m_Hero->getVelocity().y + 100;
 		m_Hero->setVelocity(temp);
 	}
 	if (m_IsDown_KeyDown)
 	{
 		//this->setPositionY(this->getPositionY() + 10);
 		temp.x = m_Hero->getVelocity().x;
-		temp.y = m_Hero->getVelocity().y - 10;
+		temp.y = m_Hero->getVelocity().y - 100;
 		m_Hero->setVelocity(temp);
 	}
 	if (m_IsRight_KeyDown)
 	{
 		//this->setPositionX(this->getPositionX() - 10);
-		temp.x = m_Hero->getVelocity().x + 10;
+		temp.x = m_Hero->getVelocity().x + 100;
 		temp.y = m_Hero->getVelocity().y;
 		m_Hero->setVelocity(temp);
 	}
 	if (m_IsLeft_KeyDown)
 	{
 		//this->setPositionX(this->getPositionX() + 10);
-		temp.x = m_Hero->getVelocity().x - 10;
+		temp.x = m_Hero->getVelocity().x - 100;
 		temp.y = m_Hero->getVelocity().y;
 		m_Hero->setVelocity(temp);
 	}
 }
 
-void GameScene::createHero(Point location)
+void GameScene2::createHero(Point location)
 {
 	auto sprite = Sprite::create("Images/pattern1.png");
 
@@ -204,7 +204,7 @@ void GameScene::createHero(Point location)
 	this->addChild(sprite);
 }
 
-void GameScene::addNewSpriteAtPosition(Point p)
+void GameScene2::addNewSpriteAtPosition(Point p)
 {
 	auto sprite = Sprite::create("Images/CloseSelected.png");
 	sprite->setPosition(p);
@@ -222,7 +222,7 @@ void GameScene::addNewSpriteAtPosition(Point p)
 }
 
 
-void GameScene::MobAi()
+void GameScene2::MobAi()
 {
 // 	auto frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
 // 
@@ -253,4 +253,20 @@ void GameScene::MobAi()
 // 			b->SetLinearVelocity(temp);
 // 		}
 // 	}
+}
+
+void GameScene2::groundFriction()
+{
+	for (auto& b : m_World->getAllBodies())
+	{
+		auto vect = b->getVelocity();
+
+		auto temp = sqrt(pow(vect.x, 2) + pow(vect.y, 2));
+		if (abs(vect.x) > 0)
+			vect.x -= vect.x / sqrt(temp);
+		if (abs(vect.y) > 0)
+			vect.y -= vect.y / sqrt(temp);
+
+		b->setVelocity(vect);
+	}
 }

@@ -7,7 +7,9 @@ public:
 	virtual bool init();
 	CREATE_FUNC(MainScene);
 
-
+	void doClick1(cocos2d::Ref* sender);
+	void doClick2(cocos2d::Ref* sender);
+	void doClick3(cocos2d::Ref* sender);
 
 
 };
