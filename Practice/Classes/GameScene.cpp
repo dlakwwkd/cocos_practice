@@ -10,10 +10,10 @@ Scene* GameScene::createScene()
 	scene->getPhysicsWorld()->setGravity(Vect::ZERO);
 
 	auto layer = GameScene::create();
-	scene->addChild(layer, 0, DEFAULT_LAYER);
-
 	auto layer2 = PhysicsLayer::create();
 	layer2->setPhyWorld(scene->getPhysicsWorld());
+
+	scene->addChild(layer, 0, DEFAULT_LAYER);
 	layer->addChild(layer2, 0, PHYSICS_LAYER);
 
 	return scene;
@@ -25,7 +25,6 @@ bool GameScene::init()
 	{
 		return false;
 	}
-
 	auto layer = UILayer::create();
 	this->addChild(layer, 10, UI_LAYER);
 

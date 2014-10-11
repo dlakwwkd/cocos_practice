@@ -10,7 +10,6 @@ bool ObjectLayer::init()
 	{
 		return false;
 	}
-
 	m_Hero = nullptr;
 	createHero({ 200, 200 });
 
