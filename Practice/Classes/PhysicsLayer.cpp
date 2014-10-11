@@ -127,22 +127,18 @@ void PhysicsLayer::updateKeyInput()
 	if (GET_IM->getKeyStatus(UP_KEY))
 	{
 		this->setPositionY(this->getPositionY() - 10);
-		//m_Hero->applyImpulse(Vect(0, 10));
 	}
 	if (GET_IM->getKeyStatus(DOWN_KEY))
 	{
 		this->setPositionY(this->getPositionY() + 10);
-		//m_Hero->applyImpulse(Vect(0, -10));
 	}
 	if (GET_IM->getKeyStatus(LEFT_KEY))
 	{
 		this->setPositionX(this->getPositionX() + 10);
-		//m_Hero->applyImpulse(Vect(10, 0));
 	}
 	if (GET_IM->getKeyStatus(RIGHT_KEY))
 	{
 		this->setPositionX(this->getPositionX() - 10);
-		//m_Hero->applyImpulse(Vect(-10, 0));
 	}
 }
 

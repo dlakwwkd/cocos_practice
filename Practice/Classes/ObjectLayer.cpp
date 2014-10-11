@@ -21,6 +21,12 @@ bool ObjectLayer::init()
 void ObjectLayer::tick(float dt)
 {
 	m_Hero->movement();
+	m_Hero->getSprite()->setZOrder(-m_Hero->getSprite()->getPosition().y);
+	for (auto& b : m_MobList)
+	{
+		b->movement();
+		b->getSprite()->setZOrder(-b->getSprite()->getPosition().y);
+	}
 }
 
 void ObjectLayer::unitMove(Point p)
@@ -37,7 +43,7 @@ void ObjectLayer::unitMove(Point p)
 
 void ObjectLayer::createHero(Point location)
 {
-	std::shared_ptr<Unit> unit(new Unit("Images/pattern1.png", BOX, location));
+	std::shared_ptr<Unit> unit(new Unit("Images/SpookyPeas.png", CIRCLE, location));
 	m_Hero = unit;
 	m_Hero->getBody()->setVelocityLimit(100);
 	this->addChild(m_Hero->getSprite());
@@ -46,8 +52,8 @@ void ObjectLayer::createHero(Point location)
 void ObjectLayer::addNewSpriteAtPosition(Point p)
 {
 	auto parent = (PhysicsLayer*)(this->getParent());
-	std::shared_ptr<Unit> unit(new Unit("Images/r2.png", CIRCLE, p - parent->getPosition()));
-	unit->getBody()->setVelocityLimit(1000);
+	std::shared_ptr<Unit> unit(new Unit("Images/Pea.png", CIRCLE, p - parent->getPosition()));
+	unit->getBody()->setVelocityLimit(100);
 
 	m_MobList.push_back(unit);
 	this->addChild(unit->getSprite());
@@ -58,9 +64,9 @@ void ObjectLayer::MobAi()
 	auto winSize = Director::getInstance()->getWinSize();
 	auto parent = (PhysicsLayer*)(this->getParent());
 
-	for (auto& b : parent->getPhyWorld()->getAllBodies())
+	for (auto& b : m_MobList)
 	{
-		if (b == m_Hero->getBody()) continue;
+		if (b == m_Hero) continue;
 
 		Vect temp;
 		temp.x = rand() % (int)winSize.width;
@@ -69,12 +75,10 @@ void ObjectLayer::MobAi()
 		auto time = rand() % 300;
 
 		if (time < 3)
-			temp = temp - b->getPosition();
+			b->moveTargeting(temp);
 		else if (time == 10)
-			temp = m_Hero->getBody()->getPosition() - b->getPosition();
+			b->moveTargeting(m_Hero->getBody()->getPosition());
 		else
 			continue;
-
-		b->applyImpulse(temp*5);
 	}
 }

@@ -7,6 +7,7 @@ Unit::Unit(const std::string& filename, BodyShape shape, Vect createPos)
 	m_MoveMode = false;
 
 	auto sprite = Sprite::create(filename);
+	sprite->setScale(2.0f);
 
 	// 밀도, 복원력, 마찰력
 	auto material = PhysicsMaterial(1.0f, 0.6f, 0.8f);
@@ -15,14 +16,14 @@ Unit::Unit(const std::string& filename, BodyShape shape, Vect createPos)
 	switch (shape)
 	{
 	case CIRCLE:
-		body = PhysicsBody::createCircle(sprite->getContentSize().width / 2, material);
+		body = PhysicsBody::createCircle(sprite->getContentSize().width, material);
 		break;
 	case BOX:
-		body = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), material);
+		body = PhysicsBody::createBox(Size(sprite->getContentSize().width*2, sprite->getContentSize().height*2), material);
 		break;
 	}
 	body->setMass(1.0f);
-	body->setRotationEnable(true);
+	body->setRotationEnable(false);
 	body->setAngularDamping(1);
 	body->setLinearDamping(3);
 
