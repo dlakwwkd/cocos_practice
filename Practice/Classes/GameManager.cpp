@@ -2,7 +2,6 @@
 
 GameManager::GameManager()
 {
-	m_IM = new InputManager();
-
+	std::shared_ptr<InputManager> temp(new InputManager());
+	m_IM = temp;
 }
-

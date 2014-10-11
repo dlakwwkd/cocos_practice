@@ -28,20 +28,26 @@
     <Filter Include="Game\Manager">
       <UniqueIdentifier>{04a48203-df7a-4d28-9480-f145cd0e2b56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object">
-      <UniqueIdentifier>{6287dcdb-ade1-49c4-88ca-36047e1c3cf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Missile">
-      <UniqueIdentifier>{da7bc9c2-03c2-4252-8851-02ab3e1f4a19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Skill">
-      <UniqueIdentifier>{d40cfdb1-1860-4226-9479-48753cc453d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Unit">
-      <UniqueIdentifier>{945b4f14-0b3b-446f-b8d9-21ae9199c969}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\UI">
       <UniqueIdentifier>{0f86f7cb-b498-46a4-98e3-ac1718b54e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\PhysicsWorld\Object">
+      <UniqueIdentifier>{6287dcdb-ade1-49c4-88ca-36047e1c3cf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\PhysicsWorld\Object\Missile">
+      <UniqueIdentifier>{da7bc9c2-03c2-4252-8851-02ab3e1f4a19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\PhysicsWorld\Object\Skill">
+      <UniqueIdentifier>{d40cfdb1-1860-4226-9479-48753cc453d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\PhysicsWorld\Object\Unit">
+      <UniqueIdentifier>{945b4f14-0b3b-446f-b8d9-21ae9199c969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\PhysicsWorld\Object\Obstruction">
+      <UniqueIdentifier>{dc02d778-62f7-4365-b0fb-82ca3366056f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\PhysicsWorld\Map">
+      <UniqueIdentifier>{3cead3ac-e92d-44a1-9beb-dcafdca7d98a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\InputManager.cpp">
       <Filter>Game\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MapLayer.cpp">
+      <Filter>Game\PhysicsWorld\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ObjectLayer.cpp">
+      <Filter>Game\PhysicsWorld\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit.cpp">
+      <Filter>Game\PhysicsWorld\Object\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\InputManager.h">
       <Filter>Game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MapLayer.h">
+      <Filter>Game\PhysicsWorld\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ObjectLayer.h">
+      <Filter>Game\PhysicsWorld\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit.h">
+      <Filter>Game\PhysicsWorld\Object\Unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

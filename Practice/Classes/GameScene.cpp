@@ -26,8 +26,8 @@ bool GameScene::init()
 		return false;
 	}
 
-// 	auto layer = UILayer::create();
-// 	this->addChild(layer, 10, UI_LAYER);
+	auto layer = UILayer::create();
+	this->addChild(layer, 10, UI_LAYER);
 
 	return true;
 }

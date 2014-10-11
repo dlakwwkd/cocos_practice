@@ -1,5 +1,8 @@
 #include "PhysicsLayer.h"
+#include "MapLayer.h"
+#include "ObjectLayer.h"
 #include "GameManager.h"
+#include "Enums.h"
 
 
 bool PhysicsLayer::init()
@@ -9,16 +12,10 @@ bool PhysicsLayer::init()
 		return false;
 	}
 
-
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	auto body = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
-	auto edgeNode = Node::create();
-	edgeNode->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
-	edgeNode->setPhysicsBody(body);
-	this->addChild(edgeNode);
-
-	createHero({ 200, 200 });
+	auto layer1 = MapLayer::create();
+	this->addChild(layer1, 0, MAP_LAYER);
+	auto layer2 = ObjectLayer::create();
+	this->addChild(layer2, 1, OBJECT_LAYER);
 
 	auto MouseListener = EventListenerMouse::create();
 	MouseListener->onMouseDown = CC_CALLBACK_1(PhysicsLayer::onMouseDown, this);
@@ -39,28 +36,21 @@ void PhysicsLayer::tick(float dt)
 {
 	updateKeyInput();
 	cameraSync();
-	//MobAi();
+	auto child = (ObjectLayer*)(this->getChildByTag(OBJECT_LAYER));
+	child->MobAi();
 }
 
 void PhysicsLayer::onMouseDown(Event *event)
 {
-	auto button = (static_cast<EventMouse*>(event))->getMouseButton();
+	auto button = ((EventMouse*)event)->getMouseButton();
 	switch (button)
 	{
 	case MOUSE_BUTTON_LEFT:
 		GET_IM->setMouseStatus(MOUSE_BUTTON_LEFT, true);
 		break;
 	case MOUSE_BUTTON_RIGHT:
-		for (auto& b : m_World->getAllBodies())
-		{
-			auto vect = b->getPosition();
-			vect = GET_IM->getMouseLocation() - vect;
-			b->setVelocity(vect);
-		}
-		auto vect = m_Hero->getPosition();
-		vect = GET_IM->getMouseLocation() - vect;
-
-		m_Hero->setVelocity(vect);
+		auto child = (ObjectLayer*)(this->getChildByTag(OBJECT_LAYER));
+		child->unitMove(GET_IM->getMouseLocation());
 		break;
 	}
 }
@@ -72,7 +62,7 @@ void PhysicsLayer::onMouseUp(Event *event)
 
 void PhysicsLayer::onMouseMove(Event *event)
 {
-	auto temp = (static_cast<EventMouse*>(event))->getLocation();
+	auto temp = ((EventMouse*)event)->getLocation();
 	temp.y = Director::getInstance()->getWinSize().height - temp.y;
 
 	GET_IM->setMouseLocation(temp);
@@ -80,7 +70,8 @@ void PhysicsLayer::onMouseMove(Event *event)
 	
 	if (GET_IM->getMouseStatus(MOUSE_BUTTON_LEFT))
 	{
-		addNewSpriteAtPosition(GET_IM->getMouseLocation());
+		auto child = (ObjectLayer*)(this->getChildByTag(OBJECT_LAYER));
+		child->addNewSpriteAtPosition(GET_IM->getMouseLocation());
 	}
 }
 
@@ -158,69 +149,4 @@ void PhysicsLayer::updateKeyInput()
 void PhysicsLayer::cameraSync()
 {
 	
-}
-
-void PhysicsLayer::createHero(Point location)
-{
-	auto sprite = Sprite::create("Images/pattern1.png");
-
-	// 밀도, 복원력, 마찰력
-	auto material = PhysicsMaterial(1.0f, 0.7f, 0.8f);
-
-	auto body = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), material);
-	body->setMass(1.0f);
-	body->setRotationEnable(true);
-	body->setAngularDamping(1);
-	body->setLinearDamping(1);
-
-	sprite->setPhysicsBody(body);
-	sprite->setPosition(location);
-	m_Hero = body;
-
-	this->addChild(sprite);
-}
-
-void PhysicsLayer::addNewSpriteAtPosition(Point p)
-{
-	auto sprite = Sprite::create("Images/CloseSelected.png");
-
-	// 밀도, 복원력, 마찰력
-	auto material = PhysicsMaterial(1.0f, 0.8f, 0.8f);
-
-	auto body = PhysicsBody::createCircle(sprite->getContentSize().width / 2, material);
-	body->setMass(0.3f);
-	body->setRotationEnable(true);
-	body->setAngularDamping(1);
-	body->setLinearDamping(1);
-
-	sprite->setPhysicsBody(body);
-	sprite->setPosition(p - this->getPosition());
-
-	this->addChild(sprite);
-}
-
-
-void PhysicsLayer::MobAi()
-{
-	auto winSize = Director::getInstance()->getWinSize();
-
-	for (auto& b : m_World->getAllBodies())
-	{
-		if (b == m_Hero) continue;
-		
-		Vect temp;
-		temp.x = rand() % (int)winSize.width;
-		temp.y = rand() % (int)winSize.height;
-
-		auto time = rand() % 300;
-
-		if (time < 3)
-			temp = temp - b->getPosition();
-		else if (time == 10)
-			temp = m_Hero->getPosition() - b->getPosition();
-		else
-			continue;
-
-		b->applyImpulse(temp);
-	}
 }

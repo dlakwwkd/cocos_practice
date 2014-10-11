@@ -15,12 +15,12 @@ public:
 		static GameManager instance;
 		return instance;
 	}
-	void clearManagers(){ delete m_IM; }
-	InputManager* getIM(){ return m_IM; }
+	//void clearManagers(){ delete m_IM; }
+	std::shared_ptr<InputManager> getIM(){ return m_IM; }
 
 private:
 	GameManager();
-	InputManager* m_IM;
+	std::shared_ptr<InputManager> m_IM;
 
 
 };

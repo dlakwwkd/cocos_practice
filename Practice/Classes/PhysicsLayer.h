@@ -9,19 +9,17 @@ public:
 	virtual bool init();
 	CREATE_FUNC(PhysicsLayer);
 
+	PhysicsWorld* getPhyWorld(){ return m_World; }
 	void setPhyWorld(PhysicsWorld* world){ m_World = world; }
 	void tick(float dt);
 
 
-	void addNewSpriteAtPosition(Point p);
-	void createHero(Point location);
+
 	void updateKeyInput();
 	void cameraSync();
-	void MobAi();
 
 protected:
 	PhysicsWorld*	m_World;
-	PhysicsBody*	m_Hero;
 
 
 

@@ -142,8 +142,11 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\InputManager.cpp" />
     <ClCompile Include="..\Classes\MainScene.cpp" />
+    <ClCompile Include="..\Classes\MapLayer.cpp" />
+    <ClCompile Include="..\Classes\ObjectLayer.cpp" />
     <ClCompile Include="..\Classes\PhysicsLayer.cpp" />
     <ClCompile Include="..\Classes\UILayer.cpp" />
+    <ClCompile Include="..\Classes\Unit.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +156,11 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\InputManager.h" />
     <ClInclude Include="..\Classes\MainScene.h" />
+    <ClInclude Include="..\Classes\MapLayer.h" />
+    <ClInclude Include="..\Classes\ObjectLayer.h" />
     <ClInclude Include="..\Classes\PhysicsLayer.h" />
     <ClInclude Include="..\Classes\UILayer.h" />
+    <ClInclude Include="..\Classes\Unit.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
