@@ -43,7 +43,7 @@ void ObjectLayer::unitMove(Point p)
 
 void ObjectLayer::createHero(Point location)
 {
-	std::shared_ptr<Unit> unit(new Unit("Images/SpookyPeas.png", CIRCLE, location));
+	std::shared_ptr<Unit> unit(new Unit("Images/SpookyPeas.png", CIRCLE, location, 1.0f));
 	m_Hero = unit;
 	m_Hero->getBody()->setVelocityLimit(100);
 	this->addChild(m_Hero->getSprite());
@@ -52,7 +52,7 @@ void ObjectLayer::createHero(Point location)
 void ObjectLayer::addNewSpriteAtPosition(Point p)
 {
 	auto parent = (PhysicsLayer*)(this->getParent());
-	std::shared_ptr<Unit> unit(new Unit("Images/Pea.png", CIRCLE, p - parent->getPosition()));
+	std::shared_ptr<Unit> unit(new Unit("Images/Pea.png", CIRCLE, p - parent->getPosition(), 1.0f));
 	unit->getBody()->setVelocityLimit(100);
 
 	m_MobList.push_back(unit);

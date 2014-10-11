@@ -7,18 +7,14 @@ bool MapLayer::init()
 	{
 		return false;
 	}
-
-	auto sprite = Sprite::create("Images/bg1.png");
-	sprite->setPosition(this->getAnchorPointInPoints());
-	this->addChild(sprite);
-
+	auto layerCenter = this->getAnchorPointInPoints();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
+	auto sprite = Sprite::create("Images/bg1.png");
 	auto body = PhysicsBody::createEdgeBox(sprite->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT, 3);
-	auto edgeNode = Node::create();
-	edgeNode->setPhysicsBody(body);
-	edgeNode->setPosition(this->getAnchorPointInPoints());
-	this->addChild(edgeNode);
+	sprite->setPhysicsBody(body);
+	sprite->setPosition(layerCenter);
 
+	this->addChild(sprite);
 	return true;
 }

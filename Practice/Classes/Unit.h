@@ -7,7 +7,7 @@ USING_NS_CC;
 class Unit
 {
 public:
-	Unit(const std::string& filename, BodyShape shape, Vect createPos);
+	Unit(const std::string& filename, BodyShape shape, Point createPos, float scale);
 
 	Sprite*			getSprite(){ return m_Sprite; }
 	PhysicsBody*	getBody(){ return m_Body; }
@@ -26,6 +26,6 @@ protected:
 	int				m_Mp;
 	float			m_Speed;
 
-	Vect			m_MovePosition;
+	Point			m_MovePosition;
 	bool			m_MoveMode;
 };

@@ -14,7 +14,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	// create the application instance
     AppDelegate app;
     return Application::getInstance()->run();
 }

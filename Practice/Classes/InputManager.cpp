@@ -2,5 +2,5 @@
 
 InputManager::InputManager()
 {
-	m_MouseLocation = Vect::ZERO;
+	m_MouseLocation = Point::ZERO;
 }

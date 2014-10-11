@@ -82,26 +82,26 @@ void PhysicsLayer::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 
 	switch (keyCode)
 	{
-	case SPACE_KEY:
+	case KEY_SPACE:
 		gravity = Vect(0.0f, 0.0f);
 		m_World->setGravity(gravity);
-		GET_IM->setKeyStatus(SPACE_KEY, true);
+		GET_IM->setKeyStatus(KEY_SPACE, true);
 		break;
 
-	case UP_KEY:		GET_IM->setKeyStatus(UP_KEY, true);		break;
-	case DOWN_KEY:		GET_IM->setKeyStatus(DOWN_KEY, true);	break;
-	case RIGHT_KEY:		GET_IM->setKeyStatus(RIGHT_KEY, true);	break;
-	case LEFT_KEY:		GET_IM->setKeyStatus(LEFT_KEY, true);	break;
+	case KEY_UP_ARROW:		GET_IM->setKeyStatus(KEY_UP_ARROW, true);		break;
+	case KEY_DOWN_ARROW:		GET_IM->setKeyStatus(KEY_DOWN_ARROW, true);	break;
+	case KEY_RIGHT_ARROW:		GET_IM->setKeyStatus(KEY_RIGHT_ARROW, true);	break;
+	case KEY_LEFT_ARROW:		GET_IM->setKeyStatus(KEY_LEFT_ARROW, true);	break;
 
-	case Z_KEY:
+	case KEY_Z:
 		gravity = Vect(m_World->getGravity().x, -m_World->getGravity().y);
 		m_World->setGravity(gravity);
-		GET_IM->setKeyStatus(Z_KEY, true);
+		GET_IM->setKeyStatus(KEY_Z, true);
 		break;
-	case X_KEY:
+	case KEY_X:
 		gravity = Vect(0.0f, -1000.0f);
 		m_World->setGravity(gravity);
-		GET_IM->setKeyStatus(X_KEY, true);
+		GET_IM->setKeyStatus(KEY_X, true);
 		break;
 	}
 }
@@ -110,13 +110,13 @@ void PhysicsLayer::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	switch (keyCode)
 	{
-	case SPACE_KEY:		GET_IM->setKeyStatus(SPACE_KEY, false);	break;
-	case UP_KEY:		GET_IM->setKeyStatus(UP_KEY, false);		break;
-	case DOWN_KEY:		GET_IM->setKeyStatus(DOWN_KEY, false);	break;
-	case RIGHT_KEY:		GET_IM->setKeyStatus(RIGHT_KEY, false);	break;
-	case LEFT_KEY:		GET_IM->setKeyStatus(LEFT_KEY, false);	break;
-	case Z_KEY:			GET_IM->setKeyStatus(Z_KEY, false);		break;
-	case X_KEY:			GET_IM->setKeyStatus(X_KEY, false);		break;
+	case KEY_SPACE:		GET_IM->setKeyStatus(KEY_SPACE, false);	break;
+	case KEY_UP_ARROW:		GET_IM->setKeyStatus(KEY_UP_ARROW, false);		break;
+	case KEY_DOWN_ARROW:		GET_IM->setKeyStatus(KEY_DOWN_ARROW, false);	break;
+	case KEY_RIGHT_ARROW:		GET_IM->setKeyStatus(KEY_RIGHT_ARROW, false);	break;
+	case KEY_LEFT_ARROW:		GET_IM->setKeyStatus(KEY_LEFT_ARROW, false);	break;
+	case KEY_Z:			GET_IM->setKeyStatus(KEY_Z, false);		break;
+	case KEY_X:			GET_IM->setKeyStatus(KEY_X, false);		break;
 	}
 }
 
@@ -124,19 +124,19 @@ void PhysicsLayer::updateKeyInput()
 {
 	Vect temp;
 
-	if (GET_IM->getKeyStatus(UP_KEY))
+	if (GET_IM->getKeyStatus(KEY_UP_ARROW))
 	{
 		this->setPositionY(this->getPositionY() - 10);
 	}
-	if (GET_IM->getKeyStatus(DOWN_KEY))
+	if (GET_IM->getKeyStatus(KEY_DOWN_ARROW))
 	{
 		this->setPositionY(this->getPositionY() + 10);
 	}
-	if (GET_IM->getKeyStatus(LEFT_KEY))
+	if (GET_IM->getKeyStatus(KEY_LEFT_ARROW))
 	{
 		this->setPositionX(this->getPositionX() + 10);
 	}
-	if (GET_IM->getKeyStatus(RIGHT_KEY))
+	if (GET_IM->getKeyStatus(KEY_RIGHT_ARROW))
 	{
 		this->setPositionX(this->getPositionX() - 10);
 	}

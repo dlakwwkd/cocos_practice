@@ -1,35 +1,33 @@
 #include "Unit.h"
 
 
-Unit::Unit(const std::string& filename, BodyShape shape, Vect createPos)
+Unit::Unit(const std::string& filename, BodyShape shape, Point createPos, float scale)
 {
-	m_Speed = 100.0f;
-	m_MoveMode = false;
+	m_Speed		= 100.0f;
+	m_MoveMode	= false;
 
 	auto sprite = Sprite::create(filename);
-	sprite->setScale(2.0f);
-
-	// ¹Ðµµ, º¹¿ø·Â, ¸¶Âû·Â
-	auto material = PhysicsMaterial(1.0f, 0.6f, 0.8f);
+	auto material = PhysicsMaterial(1.0f, 0.6f, 0.8f); // ¹Ðµµ, Åº¼º·Â, ¸¶Âû·Â
 	
 	PhysicsBody* body = nullptr;
 	switch (shape)
 	{
 	case CIRCLE:
-		body = PhysicsBody::createCircle(sprite->getContentSize().width, material);
+		body = PhysicsBody::createCircle(sprite->getContentSize().width*(scale / 2), material);
 		break;
 	case BOX:
-		body = PhysicsBody::createBox(Size(sprite->getContentSize().width*2, sprite->getContentSize().height*2), material);
+		body = PhysicsBody::createBox(Size(sprite->getContentSize().width * scale,
+										sprite->getContentSize().height * scale), material);
 		break;
 	}
+
 	body->setMass(1.0f);
 	body->setRotationEnable(false);
-	body->setAngularDamping(1);
 	body->setLinearDamping(3);
 
 	sprite->setPhysicsBody(body);
 	sprite->setPosition(createPos);
-	
+	sprite->setScale(scale);
 
 	m_Sprite	= sprite;
 	m_Body		= body;
@@ -37,8 +35,8 @@ Unit::Unit(const std::string& filename, BodyShape shape, Vect createPos)
 
 void Unit::moveTargeting(Point p)
 {
-	m_MoveMode = true;
-	m_MovePosition = p;
+	m_MoveMode		= true;
+	m_MovePosition	= p;
 }
 
 void Unit::movement()
@@ -54,7 +52,7 @@ void Unit::movement()
 			m_Body->setVelocity(Vect::ZERO);
 			return;
 		}
-
+		
 		auto direction = m_MovePosition - m_Body->getPosition();
 		auto temp = abs(direction.x) + abs(direction.y);
 		
